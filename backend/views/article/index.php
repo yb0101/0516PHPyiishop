@@ -26,7 +26,7 @@
                 <td><?=$article->article_category_id?></td>
                 <td><?=$article->sort?></td>
                 <td><?=$article->status?></td>
-                <td><?=$article->create_time?></td>
+                <td><?=date('Y-m-d',$article->create_time)?></td>
                 <td><a href="<?=\yii\helpers\Url::to(['article/edit','id'=>$article->id])?>" class="btn btn-default"><span class="glyphicon glyphicon-wrench"></span></a>
                     <a href="<?=\yii\helpers\Url::to(['article/show','id'=>$article->id])?>" class="btn btn-default"><span class="glyphicon glyphicon-zoom-out"></span></a>
                     <a href="javaseript:;" class="btn btn-default del_btn"><span class="glyphicon glyphicon-trash"></span></a></td>

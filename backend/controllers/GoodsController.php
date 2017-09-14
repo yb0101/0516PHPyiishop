@@ -25,7 +25,7 @@ class GoodsController extends \yii\web\Controller
         $dprice = isset($where['dprice'])?$where['dprice']:'';
 
         //1，获取商品总条数
-        $total=Goods::find()->andFilterWhere(['like','name',$name])->andFilterWhere(['like','sn',$sn])->andFilterWhere(['between','shop_price',$cprice,$dprice])->count();
+        $total=Goods::find()->where(['>','status',0])->andFilterWhere(['like','name',$name])->andFilterWhere(['like','sn',$sn])->andFilterWhere(['between','shop_price',$cprice,$dprice])->count();
         //实列化一个分页工具条
         $pager = new Pagination([
             'totalCount'=>$total,
@@ -33,7 +33,7 @@ class GoodsController extends \yii\web\Controller
         ]
         );
         //查询数据
-        $goods=Goods::find()->limit($pager->limit)->andFilterWhere(['like','name',$name])->andFilterWhere(['like','sn',$sn])->andFilterWhere(['between','shop_price',$cprice,$dprice])->offset($pager->offset)->all();
+        $goods=Goods::find()->where(['>','status',0])->limit($pager->limit)->andFilterWhere(['like','name',$name])->andFilterWhere(['like','sn',$sn])->andFilterWhere(['between','shop_price',$cprice,$dprice])->offset($pager->offset)->all();
         //分配数据到视图
         return $this->render('index',['goods'=>$goods,'pager'=>$pager]);
     }

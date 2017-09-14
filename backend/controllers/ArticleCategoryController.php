@@ -11,7 +11,7 @@ class ArticleCategoryController extends \yii\web\Controller
     public function actionIndex()
     {
         //1,获取数据库品牌信息
-        $total=Article_Category::find()->count();
+        $total=Article_Category::find()->where(['>','status',0])->count();
         //$bands=Brand::find()->all();
         //实列化一个分页工具类
         $pager = new Pagination([
@@ -20,8 +20,7 @@ class ArticleCategoryController extends \yii\web\Controller
 
         ]);
         //限制条件下的显示
-        ////当前页码$books=\frontend\models\Book::find()->limit($pager->limit)->offset($pager->offset)->all();
-        $article_categorys=Article_Category::find()->limit($pager->limit)->offset($pager->offset)->all();
+        $article_categorys=Article_Category::find()->where(['>',"status",0])->limit($pager->limit)->offset($pager->offset)->all();
         //var_dump($bands);exit;
         //2,分配数据到视图
         return $this->render('index',['article_categorys'=>$article_categorys,'pager'=>$pager]);

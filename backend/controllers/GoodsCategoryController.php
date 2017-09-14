@@ -64,7 +64,7 @@ class GoodsCategoryController extends \yii\web\Controller
     public function actionIndex()
     {
         //1,获取数据库品牌信息
-        $total=GoodsCategory::find()->count();
+        $total=GoodsCategory::find()->where(['>','status',0])->count();
         //$bands=Brand::find()->all();
         //实列化一个分页工具类
         $pager = new Pagination([
@@ -73,7 +73,7 @@ class GoodsCategoryController extends \yii\web\Controller
 
         ]);
         //限制条件下的显示
-        $goods=GoodsCategory::find()->limit($pager->limit)->offset($pager->offset)->all();
+        $goods=GoodsCategory::find()->where(['>','status',0])->limit($pager->limit)->offset($pager->offset)->all();
         //var_dump($bands);exit;
         //2,分配数据到视图
         return $this->render('index',['goods'=>$goods,'pager'=>$pager]);

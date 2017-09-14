@@ -42,7 +42,7 @@ class BrandController extends \yii\web\Controller
     public function actionIndex()
     {
         //1,获取数据库品牌信息
-        $total=Brand::find()->count();
+        $total=Brand::find()->where(['>','status',0])->count();
         //$bands=Brand::find()->all();
         //实列化一个分页工具类
         $pager = new Pagination([
@@ -52,7 +52,7 @@ class BrandController extends \yii\web\Controller
         ]);
         //限制条件下的显示
         ////当前页码$books=\frontend\models\Book::find()->limit($pager->limit)->offset($pager->offset)->all();
-        $brands=Brand::find()->limit($pager->limit)->offset($pager->offset)->all();
+        $brands=Brand::find()->where(['>','status',0])->limit($pager->limit)->offset($pager->offset)->all();
         //var_dump($bands);exit;
         //2,分配数据到视图
         return $this->render('index',['brands'=>$brands,'pager'=>$pager]);
