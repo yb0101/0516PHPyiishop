@@ -27,13 +27,42 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
     //定义一个明文密码
     public $password;
     public $newpassword;
+    public $rules;
 
     /**
      * @inheritdoc
      */
+    //获取用户的菜单
+    public function getMenus(){
+        $menuItems = [];
+        //获取所有一级菜单
+        $menus = Menu::find()->where(['parent_id'=>0])->all();
+        foreach($menus as $menu){
+            //获取该一级菜单的所有子菜单
+            $children = Menu::find()->where(['parent_id'=>$menu->id])->all();
+            $items = [];
+            foreach ($children as $child) {
+                //判断 当前用户是否有该路由的权限
+                if (Yii::$app->user->can($child->url)) {
+                    $items[] = ['label' => $child->name, 'url' => [$child->url]];
+                }
+            }
+            $menuItems[] = ['label' => $menu->name, 'items'=>$items];
+        }
+        return $menuItems;
+    }
     public static function tableName()
     {
         return 'admin';
+    }
+    public static function getRuleItems(){
+        $rules=\Yii::$app->authManager->getRoles();//获取全部的信息
+        $itms=[];
+        foreach ($rules as $rule){
+            $itms[$rule->name] = $rule->description;
+        }
+
+        return  $itms;//用另一个方法做
     }
 
     /**
@@ -73,6 +102,7 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
             [['username'], 'unique'],
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
+            ['rules','safe'],
         ];
     }
 

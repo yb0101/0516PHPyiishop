@@ -20,6 +20,7 @@ return [
 
             'identityClass' => 'backend\models\Admin',
             'enableAutoLogin' => true,//用来判断是否要启用自动登录功能
+            'loginUrl'=>['admin/login'],
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [

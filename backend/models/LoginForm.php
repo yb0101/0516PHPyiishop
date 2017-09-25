@@ -17,7 +17,7 @@ class LoginForm extends Model{
     public function rules()
     {
         return[
-            [['password'],'required'],
+            [['username','password'],'required'],
             ['code','captcha','captchaAction'=>'admin/captcha'],
             ['checkbook','string'],
             [['ppasswor','newpassword','nnewpassword'],'string'],
